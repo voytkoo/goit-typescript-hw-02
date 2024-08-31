@@ -10,6 +10,7 @@ import ErrorMessage from "./ErrorMessage/ErrorMessage";
 import toast, { Toaster } from "react-hot-toast";
 
 Modal.setAppElement("#root");
+
 interface Image {
   id: number;
   urls: {
@@ -22,6 +23,12 @@ interface Image {
     name: string;
   };
   likes: number;
+}
+
+interface DataResponse {
+  total: number;
+  total_pages: number;
+  results: Image[];
 }
 
 const App: React.FC = () => {
@@ -41,7 +48,7 @@ const App: React.FC = () => {
   const fetchImages = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
+      const response = await axios.get<DataResponse>(
         `https://api.unsplash.com/search/photos`,
         {
           params: {
